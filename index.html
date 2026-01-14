@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Be My Valentine?</title>
+    <style>
+        
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #2e003e, #7b1fa2);
+            font-family: 'Arial', sans-serif;
+            overflow: hidden; 
+            touch-action: none; /* Спира зуумването на мобилни при бързо цъкане */
+        }
+
+        .container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px 20px; /* Малко по-малки отстъпи за мобилни */
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            width: 90%; /* Гъвкава ширина за телефони */
+            max-width: 320px; /* Максимална ширина за десктоп */
+        }
+
+        h1 {
+            color: #4a148c;
+            font-size: 24px; /* Малко по-малък шрифт за да се събира */
+            margin-bottom: 20px;
+            line-height: 1.3;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            min-height: 60px;
+            margin-top: 10px;
+        }
+
+        button {
+            padding: 12px 25px; /* По-удобна зона за натискане с пръст */
+            font-size: 18px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.1s; /* По-бърза анимация */
+            font-weight: bold;
+            -webkit-tap-highlight-color: transparent; /* Маха синьото каре при клик на Android/iOS */
+        }
+
+        /* Стил за бутона YES */
+        #yesBtn {
+            background-color: #8e24aa;
+            color: white;
+            box-shadow: 0 4px 15px rgba(142, 36, 170, 0.4);
+            z-index: 10; /* Винаги най-отгоре */
+        }
+
+        #yesBtn:active {
+            transform: scale(0.95);
+        }
+
+        /* Стил за бутона NO */
+        #noBtn {
+            background-color: #e1bee7;
+            color: #4a148c;
+            transition: top 0.2s, left 0.2s; /* Плавно движение */
+        }
+
+        .hidden {
+            display: none;
+        }
+        
+        img {
+            border-radius: 10px; 
+            max-width: 100%; /* Картинката да не излиза от контейнера */
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div id="question-box">
+            <h1>Will you be my Valentine? 💜</h1>
+            <div><img src="stitch.gif" alt="Stitch asking"></div>
+            <br>
+            <div class="buttons">
+                <button id="yesBtn">Yes</button>
+                <button id="noBtn">No</button>
+            </div>
+        </div>
+
+        <div id="success-box" class="hidden">
+            <h1>Mi boojiboo, this is us 💜</h1>
+            <div><img src="stitchangel.gif" alt="Stitch and Angel"></div>
+            <br>
+            <strong><p style="color: #4a148c; font-size: 18px;">P.S. Лека работа!</p></strong>
+        </div>
+    </div>
+
+<audio id="bgMusic" loop>
+  <source src="song.mp3" type="audio/mpeg">
+</audio>
+
+    <script>
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+        const questionBox = document.getElementById('question-box');
+        const successBox = document.getElementById('success-box');
+
+       
+        yesBtn.addEventListener('click', function() {
+            questionBox.style.display = 'none';
+            successBox.style.display = 'block';
+
+            var music = document.getElementById('bgMusic');
+            music.volume = 0.5;
+            music.play().catch(function(error) {
+                console.log("Автоматичното пускане беше блокирано: " + error);
+            });
+            
+            
+            document.body.style.background = "linear-gradient(250deg, #8e24aa, #8e24aa, #0b4bb3, #8e24aa)";
+        });
+
+        
+        
+        function moveButton(e) {
+           
+            if(e) e.preventDefault();
+
+           
+            const winWidth = window.innerWidth;
+            const winHeight = window.innerHeight;
+            const btnWidth = noBtn.offsetWidth;
+            const btnHeight = noBtn.offsetHeight;
+
+            
+            const randomX = Math.random() * (winWidth - btnWidth - 20); 
+            const randomY = Math.random() * (winHeight - btnHeight - 20);
+
+            noBtn.style.position = 'absolute';
+            noBtn.style.left = randomX + 'px';
+            noBtn.style.top = randomY + 'px';
+        }
+
+        
+        noBtn.addEventListener('mouseover', moveButton);
+        
+        
+        noBtn.addEventListener('touchstart', moveButton);
+
+        
+        noBtn.addEventListener('click', function(e) {
+             e.preventDefault();
+             moveButton();
+             
+        });
+
+    </script>
+</body>
+</html>
